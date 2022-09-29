@@ -1,0 +1,26 @@
+[package]
+name = "hudsucker"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+hyper = { version = "0.14.7", features = ["client", "http1", "server", "stream", "tcp"] }
+async-trait = "0.1.7"
+tracing = { version = "0.1.21", features = ["log"] }
+tokio-tungstenite = { version = "0.17.2" }
+openssl = { version = "0.10.25", optional = true }
+tokio = { version = "1.6.1", features = ["rt"] }
+moka = { version = "0.9.0", features = ["future"], optional = true }
+http = "0.2.0"
+tokio-rustls = "0.23.0"
+
+[dev-dependencies]
+tokio = { version = "1.6.1", features = ["full"] }
+tracing-subscriber = "0.3.0"
+
+[features]
+openssl-ca = ["dep:openssl", "dep:moka"]
+
+[[example]]
+name = "openssl"
+required-features = ["openssl-ca"]
