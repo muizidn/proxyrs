@@ -21,7 +21,7 @@ async fn shutdown_signal() {
 struct LogHandler;
 
 // #[async_trait]
-// impl HttpHandler for LogHandler {
+impl HttpHandler for LogHandler {
 //     async fn handle_request(
 //         &mut self,
 //         _ctx: &HttpContext,
@@ -35,15 +35,15 @@ struct LogHandler;
 //         println!("{:?}", res);
 //         res
 //     }
-// }
+}
 
 // #[async_trait]
-// impl WebSocketHandler for LogHandler {
+impl WebSocketHandler for LogHandler {
 //     async fn handle_message(&mut self, _ctx: &WebSocketContext, msg: Message) -> Option<Message> {
 //         println!("{:?}", msg);
 //         Some(msg)
 //     }
-// }
+}
 
 
 #[tokio::main]
@@ -58,15 +58,16 @@ async fn main() {
 
     let ca = OpensslAuthority::new(private_key, ca_cert, MessageDigest::sha256(), 1_000);
     
-    // let proxy = Proxy::builder()
-    //  .with_addr(SocketAddr::from(([127,0,0,1], 9090)))
-    //  .with_rustls_client()
-    //  .with_ca(ca)
-    //  .with_http_handler(LogHandler())
-    //  .build();
+    let proxy = Proxy::builder()
+        .with_addr(SocketAddr::from(([127,0,0,1], 9090)))
+        .with_rustls_client()
+        .with_ca(ca)
+        .with_http_handler(LogHandler {})
+        .with_websocket_handler(LogHandler {})
+        .build(); 
 
 
-    // if let Err(e) = proxy.start(shutdown_signal()).await {
-    //     error!("{}", e);
-    // }
+    if let Err(e) = proxy.start(shutdown_signal()).await {
+        error!("{}", e);
+    }
 }

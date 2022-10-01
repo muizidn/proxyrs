@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 hyper = { version = "0.14.7", features = ["client", "http1", "server", "stream", "tcp"] }
+hyper-rustls = { version = "0.23.0", default-features = false, features = ["http1", "logging", "tls12", "webpki-tokio"], optional = true }
 async-trait = "0.1.7"
 tracing = { version = "0.1.21", features = ["log"] }
 tokio-tungstenite = { version = "0.17.2" }
@@ -13,6 +14,7 @@ tokio = { version = "1.6.1", features = ["rt"] }
 moka = { version = "0.9.0", features = ["future"], optional = true }
 http = "0.2.0"
 tokio-rustls = "0.23.0"
+thiserror = "1.0.23"
 
 [dev-dependencies]
 tokio = { version = "1.6.1", features = ["full"] }
@@ -20,7 +22,8 @@ tracing-subscriber = "0.3.0"
 
 [features]
 openssl-ca = ["dep:openssl", "dep:moka"]
+rustls-client = ["dep:hyper-rustls", "tokio-tungstenite/rustls-tls-webpki-roots"]
 
 [[example]]
 name = "openssl"
-required-features = ["openssl-ca"]
+required-features = ["openssl-ca", "rustls-client"]
