@@ -22,6 +22,7 @@ tracing-subscriber = "0.3.0"
 
 [features]
 openssl-ca = ["dep:openssl", "dep:moka"]
+http2 = ["hyper/http2", "hyper-rustls?/http2"]
 rustls-client = ["dep:hyper-rustls", "tokio-tungstenite/rustls-tls-webpki-roots"]
 
 [[example]]

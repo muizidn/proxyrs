@@ -56,6 +56,9 @@ impl ProxyBuilder<WantsClient> {
             .https_or_http()
             .enable_http1();
 
+        #[cfg(feature = "http2")]
+        let https = https.enable_http2();
+        
         let https = https.build();
 
         ProxyBuilder(WantsCa{
